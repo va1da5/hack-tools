@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  api: &app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/app
+    entrypoint: sh
+    command:
+      - "-c"
+      - "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+
+  worker:
+    <<: *app
+    ports: []
+    command:
+      - "-c"
+      - "celery -A config worker -l info"
+
+  database:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_USER: api
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: api
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: password
+      RABBITMQ_DEFAULT_VHOST: nmap
+
+volumes:
+  pg_data: {}
