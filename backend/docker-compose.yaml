@@ -37,5 +37,8 @@ services:
       RABBITMQ_DEFAULT_PASS: password
       RABBITMQ_DEFAULT_VHOST: nmap
 
+  redis:
+    image: redis:6.0-alpine
+
 volumes:
   pg_data: {}

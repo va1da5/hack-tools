@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django_celery_results",
     "rest_framework",
     "apps.api",
 ]
@@ -126,7 +125,9 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
+
 # Celery stuff
 
-CELERY_RESULT_BACKEND = "django-db"
+CELERY_RESULT_BACKEND = "redis://redis/0"
+CELERY_RESULT_EXPIRES = 60
 CELERY_BROKER_URL = "amqp://admin:password@rabbitmq/nmap"
