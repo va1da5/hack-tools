@@ -1,0 +1,20 @@
+<div>
+  <li *ngFor="let scan of scans">
+    <a
+      class="nav-link"
+      [ngClass]="{ 'nav-link': true }"
+      routerLinkActive="active"
+      [routerLink]="['/nmap', scan.uuid]"
+      ><span
+        [@pulse]="pulse"
+        class="badge badge-success"
+        [ngClass]="{
+          badge: true,
+          'badge-success': scan.state == 'SUCCESS',
+          'badge-info': scan.state == 'SUCCESS'
+        }"
+      ></span
+      >{{ scan.host }}
+    </a>
+  </li>
+</div>

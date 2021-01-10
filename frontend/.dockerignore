@@ -1,0 +1,6 @@
+.vscode
+.git
+node_modules
+e2e
+dist
+README.md

@@ -1,4 +1,4 @@
-# Frontend
+# Hacker Tools Frontend
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.5.
 
@@ -25,3 +25,9 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## References
+
+- [Angular Crash Course](https://www.youtube.com/watch?v=Fdf5aTYRW0E&t=3647s&ab_channel=TraversyMedia)
+- [Clarity Design System](https://next.clarity.design/)
+- [Angular 9/8 Nested Routing and Child Routes by Example](https://www.techiediaries.com/angular/angular-9-nested-routing-child-routes-example/)

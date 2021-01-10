@@ -1,0 +1,24 @@
+<div class="content-container">
+  <div class="content-area">
+    <router-outlet></router-outlet>
+  </div>
+  <!-- separator -->
+  <nav class="sidenav">
+    <section class="sidenav-content">
+      <section class="nav-group">
+        <ul class="nav-list">
+          <li>
+            <button routerLink="/nmap/new" class="btn btn">New Scan</button>
+          </li>
+        </ul>
+      </section>
+      <section class="nav-group">
+        <input id="tabexample2" type="checkbox" />
+        <label for="tabexample2">NMAP Scans</label>
+        <ul class="nav-list">
+          <app-scan-jobs-list></app-scan-jobs-list>
+        </ul>
+      </section>
+    </section>
+  </nav>
+</div>

@@ -1,0 +1,17 @@
+<div class="clr-row">
+  <div class="clr-col clr-col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Host: {{ scan.host }}</div>
+      </div>
+      <div *ngIf="scanResult.length !== 0" class="card-block">
+        <div class="card-text">
+          <pre>{{ scanResult }}</pre>
+        </div>
+      </div>
+      <div class="card-footer">
+        <app-scan-timeline [scan]="scan"></app-scan-timeline>
+      </div>
+    </div>
+  </div>
+</div>

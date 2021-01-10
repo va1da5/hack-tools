@@ -1,0 +1,44 @@
+<ul class="clr-timeline clr-timeline-horizontal">
+  <li class="clr-timeline-step disabled">
+    <div class="clr-timeline-step-header">
+      {{ scan.created_at | date: "short" }}
+    </div>
+    <clr-icon shape="circle" aria-label="Not started"></clr-icon>
+    <div class="clr-timeline-step-body">
+      <span class="clr-timeline-step-title">Scan started</span>
+      <span class="clr-timeline-step-description"
+        >Scan of host {{ scan.host }} was started</span
+      >
+    </div>
+  </li>
+  <li class="clr-timeline-step" *ngIf="!isScanFinished">
+    <div class="clr-timeline-step-header">
+      {{ scan.updated_at | date: "short" }}
+    </div>
+    <clr-spinner clrMedium aria-label="In progress"></clr-spinner>
+    <div class="clr-timeline-step-body">
+      <span class="clr-timeline-step-title">Scan in progress</span>
+    </div>
+  </li>
+  <li class="clr-timeline-step" *ngIf="isScanFinished && wasScanSuccessful">
+    <div class="clr-timeline-step-header">
+      {{ scan.updated_at | date: "short" }}
+    </div>
+    <clr-icon shape="success-standard" aria-label="Completed"></clr-icon>
+    <div class="clr-timeline-step-body">
+      <span class="clr-timeline-step-title">Scan completed</span>
+    </div>
+  </li>
+  <li class="clr-timeline-step" *ngIf="isScanFinished && !wasScanSuccessful">
+    <div class="clr-timeline-step-header">
+      {{ scan.updated_at | date: "short" }}
+    </div>
+    <clr-icon shape="error-standard" aria-label="Error"></clr-icon>
+    <div class="clr-timeline-step-body">
+      <span class="clr-timeline-step-title">Scan job failed</span>
+      <span class="clr-timeline-step-description"
+        >Scan failed with status: {{ scan.state }}</span
+      >
+    </div>
+  </li>
+</ul>
