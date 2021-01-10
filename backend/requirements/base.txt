@@ -1,4 +1,7 @@
 Django==3.1.5
+django-probes==1.6.0
+python-decouple==3.4
+django-cors-headers==3.6.0
 psycopg2-binary==2.8.6
 djangorestframework==3.12.2
 django-filter==2.4.0

@@ -10,7 +10,7 @@ from .serializers import JobSerializer
 
 
 def get_jobs() -> List[Mapping[str, str]]:
-    jobs = Job.objects.all()
+    jobs = Job.objects.order_by("-updated_at").all()
     return [JobSerializer(job).data for job in jobs]
 
 
@@ -24,11 +24,12 @@ def get_job_result(*, job_id: str) -> str:
     return job.output
 
 
-def start_scan(*, host: str = None) -> str:
+def start_scan(*, host: str = None) -> Mapping[str, str]:
     task_result = tasks.nmap_scan.delay(host)
-    Job(uuid=task_result.id, host=host).save()
+    job = Job(uuid=task_result.id, host=host)
+    job.save()
     tasks.track_job.delay(task_result.id)
-    return task_result.id
+    return JobSerializer(job).data
 
 
 def nmap_scan(*, host: str = None) -> str:

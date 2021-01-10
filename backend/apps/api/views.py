@@ -13,8 +13,8 @@ class ScanAPI(APIView):
         host = request.data.get("host")
         if not host:
             raise exceptions.ValidationError("Missing 'host' field")
-        job_id = services.start_scan(host=host)
-        return Response({"id": job_id})
+        job = services.start_scan(host=host)
+        return Response(job)
 
 
 class ScanDetailsAPI(APIView):

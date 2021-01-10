@@ -5,6 +5,21 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      DJANGO_SECRET_KEY: $DJANGO_SECRET_KEY
+      DJANGO_DEBUG: $DJANGO_DEBUG
+      DJANGO_ALLOWED_HOSTS: $DJANGO_ALLOWED_HOSTS
+      DJANGO_CORS_ALLOW_ALL_ORIGINS: $DJANGO_CORS_ALLOW_ALL_ORIGINS
+
+      DATABASE_NAME: $DATABASE_NAME
+      DATABASE_USER: $DATABASE_USER
+      DATABASE_PASSWORD: $DATABASE_PASSWORD
+      DATABASE_HOST: database
+      DATABASE_PORT: $DATABASE_PORT
+
+      CELERY_BROKER_URL: amqp://admin:password@rabbitmq/nmap
+      CELERY_RESULT_BACKEND: redis://redis/0
+      CELERY_RESULT_EXPIRES: $CELERY_RESULT_EXPIRES
     ports:
       - 8000:8000
     volumes:
@@ -24,9 +39,11 @@ services:
   database:
     image: postgres:13-alpine
     environment:
-      POSTGRES_USER: api
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: api
+      POSTGRES_USER: $DATABASE_USER
+      POSTGRES_PASSWORD: $DATABASE_PASSWORD
+      POSTGRES_DB: $DATABASE_NAME
+    ports:
+      - 5432:5432
     volumes:
       - pg_data:/var/lib/postgresql/data
 
@@ -36,6 +53,8 @@ services:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: password
       RABBITMQ_DEFAULT_VHOST: nmap
+    ports:
+      - 5672:5672
 
   redis:
     image: redis:6.0-alpine

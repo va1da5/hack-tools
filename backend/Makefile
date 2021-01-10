@@ -1,11 +1,14 @@
 .PHONY: dev, restart
 
 .venv:
-	python -m venv .venv
+	@python3 -m venv .venv
 
-dev: .venv
+.env:
+	cp sample.env .env
+
+dev: .venv .env
 	@. .venv/bin/activate; \
-	pip install -r requirements/dev.txt
+	@pip install -r requirements/dev.txt
 
 restart:
 	docker-compose rm -f -s api worker

@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 
+from decouple import Csv, config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,13 +22,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "h0m43dr1)$s@^=7d^uezn-ij5t!r^9^5drhse2gpjz-@&y(fpy"
+SECRET_KEY = config("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DJANGO_DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config("DJANGO_ALLOWED_HOSTS", cast=Csv(), default=[])
 
+CORS_ALLOW_ALL_ORIGINS = config("DJANGO_CORS_ALLOW_ALL_ORIGINS", default=False, cast=bool)
 
 # Application definition
 
@@ -37,13 +40,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_probes",
     "rest_framework",
+    "corsheaders",
     "apps.api",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -78,11 +84,11 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "api",
-        "USER": "api",
-        "PASSWORD": "password",
-        "HOST": "database",
-        "PORT": "5432",
+        "NAME": config("DATABASE_NAME", default=""),
+        "USER": config("DATABASE_USER", default=""),
+        "PASSWORD": config("DATABASE_PASSWORD", default=""),
+        "HOST": config("DATABASE_HOST", default=""),
+        "PORT": config("DATABASE_PORT", default=""),
     }
 }
 
@@ -127,7 +133,6 @@ STATIC_URL = "/static/"
 
 
 # Celery stuff
-
-CELERY_RESULT_BACKEND = "redis://redis/0"
-CELERY_RESULT_EXPIRES = 60
-CELERY_BROKER_URL = "amqp://admin:password@rabbitmq/nmap"
+CELERY_RESULT_BACKEND = config("CELERY_RESULT_BACKEND")
+CELERY_RESULT_EXPIRES = config("CELERY_RESULT_EXPIRES", cast=int)
+CELERY_BROKER_URL = config("CELERY_BROKER_URL")
