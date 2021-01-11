@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "django_probes",
     "rest_framework",
     "corsheaders",
-    "apps.api",
+    "hacker_tools.api",
 ]
 
 MIDDLEWARE = [

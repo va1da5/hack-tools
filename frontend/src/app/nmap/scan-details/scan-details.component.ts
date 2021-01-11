@@ -18,35 +18,43 @@ export class ScanDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {}
 
-  getResults(): void {
-    this.scanService.getScanResults(this.scanUuid).subscribe((scanResult) => {
+  getResults(scanUuid: string): void {
+    this.scanService.getScanResults(scanUuid).subscribe((scanResult) => {
       this.scanResult = scanResult;
     });
   }
 
-  getScan(): void {
-    this.scanService.getScanDetails(this.scanUuid).subscribe((scan) => {
+  getScan(scanUuid: string): void {
+    this.scanService.getScanDetails(scanUuid).subscribe((scan) => {
       this.scan = scan;
     });
   }
 
-  monitorScan(): void {
-    // TODO: This needs to be reviewed and likely replaced with components from RxJs
-    this.getScan();
-    this.getResults();
+  // TODO: Review and update whole functionality because
+  // of jittery user interaction with this component
+  monitorScan(scanUuid: string): void {
+    this.getScan(scanUuid);
+    this.getResults(scanUuid);
     const monitorInterval = setInterval(() => {
       if (['SUCCESS', 'FAILURE', 'REVOKED'].includes(this.scan.state)) {
         clearInterval(monitorInterval);
-        this.getResults();
+        this.getResults(scanUuid);
       }
-      this.getScan();
-    }, 1000);
+      this.getScan(scanUuid);
+    }, 2000);
+  }
+
+  cancelScan(): void {
+    this.scanService.cancelScan(this.scanUuid).subscribe((scan) => {
+      this.scan = scan;
+    });
   }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params: Params) => {
+      this.scanResult = '';
       this.scanUuid = params.uuid;
-      this.monitorScan();
+      this.monitorScan(this.scanUuid);
     });
   }
 }

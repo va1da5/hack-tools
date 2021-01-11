@@ -21,6 +21,10 @@ const routes: Routes = [
         component: ScanFormComponent,
       },
       {
+        path: '',
+        component: ScanFormComponent,
+      },
+      {
         path: ':uuid',
         component: ScanDetailsComponent,
       },

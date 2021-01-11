@@ -11,7 +11,8 @@
         [ngClass]="{
           badge: true,
           'badge-success': scan.state == 'SUCCESS',
-          'badge-info': scan.state == 'SUCCESS'
+          'badge-info': scan.state == 'SUCCESS',
+          'badge-danger': ['REVOKED', 'FAILURE'].includes(scan.state)
         }"
       ></span
       >{{ scan.host }}

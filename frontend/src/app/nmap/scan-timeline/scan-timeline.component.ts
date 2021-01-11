@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Scan } from '../../models/scan.model';
 
 @Component({
@@ -8,6 +8,7 @@ import { Scan } from '../../models/scan.model';
 })
 export class ScanTimelineComponent implements OnInit {
   @Input() scan: Scan = new Scan();
+  @Output() cancelScan = new EventEmitter<boolean>();
 
   constructor() {}
 

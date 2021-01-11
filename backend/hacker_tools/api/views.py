@@ -7,7 +7,7 @@ from . import services
 
 class ScanAPI(APIView):
     def get(self, request):
-        return Response(services.get_jobs())
+        return Response(services.get_scans())
 
     def post(self, request):
         host = request.data.get("host")
@@ -18,16 +18,19 @@ class ScanAPI(APIView):
 
 
 class ScanDetailsAPI(APIView):
-    def get(self, request, uuid):
+    def get(self, request, task_id):
         try:
-            return Response(services.get_job_details(job_id=uuid))
+            return Response(services.get_scan_details(task_id=task_id))
         except:
             raise exceptions.NotFound()
 
+    def delete(self, request, task_id):
+        return Response(services.cancel_scan(task_id=task_id))
+
 
 class ScanResultsAPI(APIView):
-    def get(self, request, uuid):
+    def get(self, request, task_id):
         try:
-            return Response(services.get_job_result(job_id=uuid))
+            return Response(services.get_scan_result(task_id=task_id))
         except:
             raise exceptions.NotFound()

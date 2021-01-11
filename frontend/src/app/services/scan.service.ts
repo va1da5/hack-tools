@@ -37,4 +37,8 @@ export class ScanService {
       httpOptions
     );
   }
+
+  cancelScan(uuid: string): Observable<Scan> {
+    return this.http.delete<Scan>(`${this.apiHost}/api/scan/${uuid}/`);
+  }
 }

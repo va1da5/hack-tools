@@ -10,7 +10,10 @@
         </div>
       </div>
       <div class="card-footer">
-        <app-scan-timeline [scan]="scan"></app-scan-timeline>
+        <app-scan-timeline
+          [scan]="scan"
+          (cancelScan)="cancelScan()"
+        ></app-scan-timeline>
       </div>
     </div>
   </div>

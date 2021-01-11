@@ -1,4 +1,4 @@
-.PHONY: help, start, restart
+.PHONY: help, start, start-dev, restart
 
 help:
 	@echo "Available commands:"
@@ -12,6 +12,16 @@ help:
 start:
 	@docker-compose up -d
 
+build-dev:
+	@docker-compose --file docker-compose.dev.yml build
+
+start-dev:
+	@docker-compose --file docker-compose.dev.yml up -d
+
 restart:
-	@docker-compose rm -f -s proxy frontend api
-	@docker-compose up -d proxy frontend api
+	@docker-compose rm -f -s proxy frontend api worker
+	@docker-compose up -d proxy frontend api worker
+
+restart-dev:
+	@docker-compose --file docker-compose.dev.yml rm -f -s proxy frontend api worker
+	@docker-compose --file docker-compose.dev.yml up -d proxy frontend api worker

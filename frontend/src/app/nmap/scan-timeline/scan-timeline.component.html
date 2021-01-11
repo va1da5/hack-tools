@@ -18,6 +18,11 @@
     <clr-spinner clrMedium aria-label="In progress"></clr-spinner>
     <div class="clr-timeline-step-body">
       <span class="clr-timeline-step-title">Scan in progress</span>
+      <span class="clr-timeline-step-description">
+        <button (click)="cancelScan.emit(true)" class="btn btn-sm">
+          Cancel
+        </button>
+      </span>
     </div>
   </li>
   <li class="clr-timeline-step" *ngIf="isScanFinished && wasScanSuccessful">
