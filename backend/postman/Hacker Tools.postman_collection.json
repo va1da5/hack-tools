@@ -1,0 +1,100 @@
+{
+  "info": {
+    "_postman_id": "56541985-9f45-4552-a076-dce748bab5b2",
+    "name": "Hacker Tools",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "scans",
+      "item": [
+        {
+          "name": "GET scans",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/api/scan/",
+              "host": ["{{host}}"],
+              "path": ["api", "scan", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET create scan",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.environment.set(\"scan_id\", jsonData.uuid);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"host\": \"{{target}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{host}}/api/scan/",
+              "host": ["{{host}}"],
+              "path": ["api", "scan", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET scan details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/api/scan/{{scan_id}}",
+              "host": ["{{host}}"],
+              "path": ["api", "scan", "{{scan_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET revoke scan",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/api/scan/{{scan_id}}",
+              "host": ["{{host}}"],
+              "path": ["api", "scan", "{{scan_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET scan result",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/api/scan/{{scan_id}}/result",
+              "host": ["{{host}}"],
+              "path": ["api", "scan", "{{scan_id}}", "result"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
