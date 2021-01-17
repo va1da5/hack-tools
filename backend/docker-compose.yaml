@@ -20,6 +20,8 @@ services:
       CELERY_BROKER_URL: amqp://admin:password@rabbitmq/nmap
       CELERY_RESULT_BACKEND: redis://redis/0
       CELERY_RESULT_EXPIRES: $CELERY_RESULT_EXPIRES
+      prometheus_multiproc_dir: /tmp
+      PROMETHEUS_PUSH_GATEWAY_HOST: $PROMETHEUS_PUSH_GATEWAY_HOST
     ports:
       - 8000:8000
     volumes:
@@ -28,13 +30,16 @@ services:
     command:
       - "-c"
       - "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    restart: unless-stopped
 
   worker:
     <<: *app
-    ports: []
     command:
       - "-c"
       - "celery -A config worker -l info"
+    restart: unless-stopped
+    ports:
+      - 8001:9090
 
   database:
     image: postgres:13-alpine
@@ -46,6 +51,7 @@ services:
       - 5432:5432
     volumes:
       - pg_data:/var/lib/postgresql/data
+    restart: unless-stopped
 
   rabbitmq:
     image: rabbitmq:management-alpine
@@ -55,9 +61,31 @@ services:
       RABBITMQ_DEFAULT_VHOST: nmap
     ports:
       - 5672:5672
+    restart: unless-stopped
 
   redis:
     image: redis:6.0-alpine
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v2.24.0
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+    ports:
+      - 9090:9090
+
+  pushgateway:
+    image: prom/pushgateway:v1.3.1
+    ports:
+      - 9091:9091
+
+  grafana:
+    image: grafana/grafana:7.3.7
+    ports:
+      - 3000:3000
 
 volumes:
   pg_data: {}

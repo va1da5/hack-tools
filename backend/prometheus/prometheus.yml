@@ -1,0 +1,26 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: "prometheus"
+
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  - job_name: "hack_tools_api"
+
+    # Override global settings
+    scrape_interval: 5s
+
+    static_configs:
+      - targets: ["api:8000"]
+
+  - job_name: "hack_tools_worker"
+
+    # Override global settings
+    scrape_interval: 5s
+
+    metrics_path: /
+
+    static_configs:
+      - targets: ["worker:9090"]

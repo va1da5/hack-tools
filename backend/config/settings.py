@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django_probes",
     "rest_framework",
     "corsheaders",
+    # "hacker_tools.metrics",
     "hacker_tools.api",
 ]
 
@@ -55,6 +56,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "hacker_tools.metrics.middleware.PrometheusAfterMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -111,6 +113,20 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+    },
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -136,3 +152,5 @@ STATIC_URL = "/static/"
 CELERY_RESULT_BACKEND = config("CELERY_RESULT_BACKEND")
 CELERY_RESULT_EXPIRES = config("CELERY_RESULT_EXPIRES", cast=int)
 CELERY_BROKER_URL = config("CELERY_BROKER_URL")
+
+PROMETHEUS_PUSH_GATEWAY_HOST = config("PROMETHEUS_PUSH_GATEWAY_HOST")

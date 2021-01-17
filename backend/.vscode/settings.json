@@ -9,5 +9,8 @@
     "editor.codeActionsOnSave": {
       "source.organizeImports": true
     }
+  },
+  "files.exclude": {
+    "**/__pycache__": true
   }
 }

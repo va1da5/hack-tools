@@ -1,11 +1,14 @@
 from celery import shared_task
+from hacker_tools.metrics.celery.metrics import metrics
 
 from . import services
 
 
 @shared_task
-def nmap_scan(host: str):
-    return services.nmap_scan(host=host)
+def nmap_scan(host: str) -> str:
+    output = services.nmap_scan(host=host)
+    metrics.nmap_scans.inc()
+    return output
 
 
 @shared_task(bind=True)
